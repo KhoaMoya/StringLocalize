@@ -1,7 +1,6 @@
 package model
 
 import Languages
-import StringsResourceIO
 
 data class StringsFile(
     val filePath: String,

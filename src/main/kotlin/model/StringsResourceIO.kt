@@ -1,5 +1,7 @@
-import model.StringItem
-import model.StringsFile
+package model
+
+import Error
+import Languages
 import java.io.File
 
 const val ValuesFolderName = "values"

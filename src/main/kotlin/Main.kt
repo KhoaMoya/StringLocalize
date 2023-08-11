@@ -1,3 +1,4 @@
+import model.StringsResourceIO
 import model.Translator
 import java.io.File
 
@@ -11,5 +12,5 @@ fun main(args: Array<String>) {
         it.translateToLanguages(listOf(Languages.VietNam), false)
     }
 
-    println("total string: ${Translator.count}")
+    println("total translated string: ${Translator.count}")
 }
