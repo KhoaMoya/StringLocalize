@@ -4,7 +4,8 @@ import Languages
 
 data class StringItem(
     val value: String,
-    val language: Languages
+    val language: Languages,
+    val needTranslate: Boolean = true
 ) {
 
     fun translateTo(targetLanguage: Languages): StringItem {

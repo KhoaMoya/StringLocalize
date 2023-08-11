@@ -6,7 +6,7 @@ import StringsResourceIO
 data class StringsFile(
     val filePath: String,
     val language: Languages,
-    val listStrings: MutableMap<String, StringItem>
+    val listStrings: LinkedHashMap<String, StringItem>
 ) {
 
     fun translateToLanguages(targets: List<Languages>, shouldOverride: Boolean) {
@@ -19,14 +19,19 @@ data class StringsFile(
     }
 
     private fun translateAndUpdateStringsFile(targetStringsFile: StringsFile, shouldOverride: Boolean) {
-        listStrings.forEach { (id, stringSource) ->
-            val hasNotTranslated = !targetStringsFile.listStrings[id]?.value.isNullOrBlank()
+        listStrings.forEach { (id, stringItem) ->
+            val hasNotTranslated = targetStringsFile.listStrings[id]?.value.isNullOrBlank()
             if (hasNotTranslated) {
-                println(stringSource.value)
+                println(stringItem.value)
             }
-            if (shouldOverride || hasNotTranslated) {
-                val translatedStringItem = stringSource.translateTo(targetStringsFile.language)
-                targetStringsFile.listStrings[id] = translatedStringItem
+
+            if (stringItem.needTranslate) {
+                if (shouldOverride || hasNotTranslated) {
+                    val translatedStringItem = stringItem.translateTo(targetStringsFile.language)
+                    targetStringsFile.listStrings[id] = translatedStringItem
+                }
+            } else {
+                targetStringsFile.listStrings[id] = stringItem.copy(language = targetStringsFile.language)
             }
         }
     }
