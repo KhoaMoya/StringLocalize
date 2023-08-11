@@ -20,10 +20,6 @@ data class StringsFile(
     private fun translateAndUpdateStringsFile(targetStringsFile: StringsFile, shouldOverride: Boolean) {
         listStrings.forEach { (id, stringItem) ->
             val hasNotTranslated = targetStringsFile.listStrings[id]?.value.isNullOrBlank()
-            if (hasNotTranslated) {
-                println(stringItem.value)
-            }
-
             if (stringItem.needTranslate) {
                 if (shouldOverride || hasNotTranslated) {
                     val translatedStringItem = stringItem.translateTo(targetStringsFile.language)

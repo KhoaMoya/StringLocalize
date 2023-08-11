@@ -17,20 +17,20 @@ object StringsResourceIO {
             val stringsFolder = File(resFolder, ValuesFolderName + "-" + targetLanguage.value)
             val stringsFile = File(stringsFolder, StringsFileName)
 
-            if (!stringsFolder.exists()) {
-                stringsFolder.mkdir()
+            return if (!stringsFolder.exists() || !stringsFile.exists()) {
+                StringsFile(
+                    filePath = stringsFile.absolutePath,
+                    language = targetLanguage,
+                    listStrings = linkedMapOf()
+                )
+            } else {
+                val listStringsItem = readAllStringItem(stringsFile, targetLanguage)
+                StringsFile(
+                    filePath = stringsFile.absolutePath,
+                    language = targetLanguage,
+                    listStrings = listStringsItem
+                )
             }
-            if (!stringsFile.exists()) {
-                stringsFile.createNewFile()
-            }
-
-            val listStringsItem = readAllStringItem(stringsFile, targetLanguage)
-
-            return StringsFile(
-                filePath = stringsFile.absolutePath,
-                language = targetLanguage,
-                listStrings = listStringsItem
-            )
         }
     }
 
@@ -60,6 +60,19 @@ object StringsResourceIO {
                 stringBuilder.append(stringItem.value).append("\n")
             }
         }
+
+        val file = File(stringsFile.filePath)
+        val folder = file.parentFile
+
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        file.writeText(stringBuilder.toString())
+
+        println("------------> ${stringsFile.filePath} <-------------")
         println(stringBuilder.toString())
     }
 

@@ -1,3 +1,3 @@
-sealed class Error: Throwable() {
-    internal data object ResFolderNotFound : Error()
+sealed class Error : Throwable() {
+    data object ResFolderNotFound : Error()
 }
