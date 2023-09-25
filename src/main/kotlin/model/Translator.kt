@@ -17,8 +17,8 @@ object Translator {
 
         val response = requestTranslate(
             text = sourceText,
-            source = sourceLanguage.value,
-            target = targetLanguage.value
+            source = sourceLanguage.getCode(),
+            target = targetLanguage.getCode()
         )
         val result = handleTranslateResponse(response)
         return result ?: ""

@@ -2,10 +2,9 @@ package model
 
 import Error
 import Languages
+import StringsFileName
+import ValuesFolderName
 import java.io.File
-
-const val ValuesFolderName = "values"
-const val StringsFileName = "strings.xml"
 
 object StringsResourceIO {
 
@@ -14,7 +13,7 @@ object StringsResourceIO {
         if (resFolder == null) {
             throw Error.ResFolderNotFound
         } else {
-            val stringsFolder = File(resFolder, ValuesFolderName + "-" + targetLanguage.value)
+            val stringsFolder = File(resFolder, targetLanguage.getFolderName())
             val stringsFile = File(stringsFolder, StringsFileName)
 
             return if (!stringsFolder.exists() || !stringsFile.exists()) {
