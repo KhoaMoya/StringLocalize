@@ -14,6 +14,8 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("com.squareup.okhttp3:okhttp:3.2.0")
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("org.json:json:20231013")
 }
 
 tasks.test {

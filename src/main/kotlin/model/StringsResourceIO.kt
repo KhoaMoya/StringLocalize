@@ -84,7 +84,9 @@ object StringsResourceIO {
         val lines = file.readLines()
         lines.forEachIndexed { index, line ->
             val trimmedLine = line.trim()
-            if (trimmedLine.startsWith("<string name=\"") && trimmedLine.endsWith("</string>")) {
+            if (trimmedLine.contains("translatable=\"false\"")) {
+                map["Line$index"] = StringItem(value = line, language = language, needTranslate = false)
+            } else if (trimmedLine.startsWith("<string name=\"") && trimmedLine.endsWith("</string>")) {
                 val endIdIndex = trimmedLine.lastIndexOf("\">")
                 if (endIdIndex >= 0) {
                     val id = trimmedLine.substring(14, endIdIndex)

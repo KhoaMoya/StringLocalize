@@ -4,6 +4,8 @@ import Languages
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URLEncoder
 
 object Translator {
@@ -21,13 +23,24 @@ object Translator {
             target = targetLanguage.getCode()
         )
         val result = handleTranslateResponse(response)
+//            ?.replace("'", "\'")
+//            ?.replace("\\'", "\'")
         return result ?: ""
     }
 
     private fun handleTranslateResponse(response: String?): String? {
         if (response == null) return null
-        val endIndex = response.indexOf("\",\"")
-        return response.substring(4, endIndex)
+//        println(response)
+
+        val resultBuilder = StringBuilder()
+        val arrayObject = JSONObject("{ \"data\": $response}").getJSONArray("data").getJSONArray(0)
+        arrayObject.forEach { item ->
+            (item as? JSONArray)?.let { arr ->
+//                println(arr[1].toString() + " -> " + arr[0].toString())
+                resultBuilder.append(arr[0].toString())
+            }
+        }
+        return resultBuilder.toString()
     }
 
     private fun requestTranslate(text: String, source: String, target: String): String? {
